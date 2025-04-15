@@ -1,8 +1,0 @@
-# Ignore all common video formats
-*.mp4
-*.avi
-*.mov
-*.mkv
-*.flv
-*.wmv
-*.webm
