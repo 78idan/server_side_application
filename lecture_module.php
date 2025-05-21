@@ -10,7 +10,7 @@ include "conn.php";
 $response = [];
 $modules = [];
 if($_SERVER['REQUEST_METHOD'] == "POST"){
-
+    // $response["message"] = "hello";
     $lecture_admissionNumber = $_POST['lecture_admissionNumber'];
     // $response['message'] = $lecture_admissionNumber;
     $sql1 = $conn->prepare("select * from enrolling_table");
