@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $sql3 = $conn->prepare("select * from  `$table_name` ORDER BY db_mg_id DESC ");
             $result3 = $sql3->execute();
             while($fetch3 = $sql3->fetch(PDO::FETCH_ASSOC)){
-                $url = "http://192.168.108.102/project_app/videos/";
+                $url = "http://192.168.201.102/project_app/videos/";
                 $actualUrl = $url.$fetch3['db_mg_path'];
                 $details[] = [
                     "video_name"=> $actualUrl,

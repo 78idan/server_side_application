@@ -1,0 +1,32 @@
+<?php
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST,GET,OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type,Authorization");
+header("Content-Type: application/json");
+
+include "conn.php";
+$response = [];
+$details = [];
+if($_SERVER['REQUEST_METHOD']=="POST"){
+    $region = $_POST['region'];
+    $regionSql = $conn->prepare("select * from report where region = ?");
+    $regionResult = $regionSql->execute([$region]);
+    if($regionResult){
+            while($fetchRegion = $regionSql->fetch(PDO::FETCH_ASSOC)){
+                $details[] = [
+                    "candidates_no"=>$fetchRegion['candidates_no'],
+                    "name"=> $fetchRegion['name'],
+                ];
+            }
+            $response['message'] = $details;
+    }else{
+        $response['message'] = "The query problem";
+    }
+}
+    
+
+
+echo json_encode($response);
+
+?>

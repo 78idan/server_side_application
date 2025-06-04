@@ -32,6 +32,12 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $result3 = $sql3->execute([$fname,$lname,$sname,$departmentValue,$courseValue,$levelValue,$email,$role,$admission_number]);
                 if($result3){
                     $response['message']= "Registered";
+                    $candidate_table = $admission_number."_book";
+                    $sql4 = $conn->prepare("create table `$candidate_table`(book_id INT AUTO_INCREMENT PRIMARY KEY,week VARCHAR(255) NOT NULL,day VARCHAR(255) NOT NULL,date_time VARCHAR(255) NOT NULL, activity VARCHAR(255) NOT NULL,photo VARCHAR(255) NULL, id_sign VARCHAR(255) NULL, co_sign VARCHAR(255)  NULL  )" );
+                    $result4 = $sql4->execute();
+                    if($result4){
+                        $response['message']= "Registered"; 
+                    }
                 }else{
                     $response['message']="Not registered";
                 }

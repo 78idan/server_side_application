@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                 $result2 = $sql2->execute();
                 if($result2){
                     while($fetch2 = $sql2->fetch(PDO::FETCH_ASSOC)){
-                        $url = "http://192.168.108.102/project_app/videos/";
+                        $url = "http://192.168.201.102/project_app/videos/";
                         $actual_url = $url.$fetch2['db_mg_path'];
                         $details[] = [
                             "video_name"=> $actual_url,

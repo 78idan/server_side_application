@@ -21,10 +21,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $row2 = $sql2->rowCount();
             if($row2 == 1 ){
                 $fetch2 = $sql2->fetch(PDO::FETCH_ASSOC);
+                
                 if($fetch2['forgot_otp'] == "" && $fetch2['reg_otp'] == "" && $fetch2['status'] == "active"){
                     if(password_verify($password,$fetch2['password'])){
+                        
                         $response['message'] = $fetch2['role'];
+                        $response['name'] = $fetch2['fname']." ".$fetch2['lname'];
                     }else{
+                        
                         $response['message'] = "wrong password or admission";
                     }
                 }else{
