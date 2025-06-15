@@ -27,6 +27,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                         
                         $response['message'] = $fetch2['role'];
                         $response['name'] = $fetch2['fname']." ".$fetch2['lname'];
+                        $response['department'] = $fetch2['department'];
+                        $response['course'] = $fetch2['course'];
+                        $response['level'] = $fetch2['level'];
                     }else{
                         
                         $response['message'] = "wrong password or admission";

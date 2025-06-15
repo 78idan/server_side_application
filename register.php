@@ -33,9 +33,37 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                 if($result3){
                     $response['message']= "Registered";
                     $candidate_table = $admission_number."_book";
+                    $candidate_college = $admission_number."_college";
+                    $candidate_industry = $admission_number."_industry";
+                    $candidate_report = $admission_number."_report";
                     $sql4 = $conn->prepare("create table `$candidate_table`(book_id INT AUTO_INCREMENT PRIMARY KEY,week VARCHAR(255) NOT NULL,day VARCHAR(255) NOT NULL,date_time VARCHAR(255) NOT NULL, activity VARCHAR(255) NOT NULL,photo VARCHAR(255) NULL, id_sign VARCHAR(255) NULL, co_sign VARCHAR(255)  NULL  )" );
                     $result4 = $sql4->execute();
-                    if($result4){
+
+                    //start of create college table
+                    $sql5 = $conn->prepare( "create table `$candidate_college` (college_id INT AUTO_INCREMENT PRIMARY KEY, company VARCHAR(255) , supervisor VARCHAR(255) , student_name VARCHAR(255) , admin_no VARCHAR(255) , management_score VARCHAR(255) , student_score VARCHAR(255) , log_score VARCHAR(255) , problem_student VARCHAR(255) , problem_management VARCHAR(255) , view VARCHAR(255) , calendar VARCHAR(255) , signature VARCHAR(255)  ) " );
+                    $result5 = $sql5->execute();
+
+                    $insertSql5 = $conn->prepare("insert into `$candidate_college` () values () ");
+                    $resultInsertSql5 = $insertSql5->execute();
+                    //end of create college table
+
+                    //start of create industrial table
+                    $sql6 = $conn->prepare( "create table `$candidate_industry` (industry_id INT AUTO_INCREMENT PRIMARY KEY, company VARCHAR(255) , supervisor VARCHAR(255) , student_name VARCHAR(255) , admin_no VARCHAR(255) , level VARCHAR(255) , department VARCHAR(255) , program VARCHAR(255), asses_score VARCHAR(255) , report_date VARCHAR(255) , finish_date VARCHAR(255) , permission_with VARCHAR(255) , permission_without VARCHAR(255) , opinion_skill VARCHAR(255) , opinion_adequacy VARCHAR(255) , calendar VARCHAR(255) , signature VARCHAR(255)  ) " );
+                    $result6 = $sql6->execute();
+
+                    $insertSql6 = $conn->prepare("insert into `$candidate_industry` () values () ");
+                    $resultInsertSql6 = $insertSql6->execute();                    
+                    //end of create industrial table
+
+                    //start of technical report
+                    $sql7 = $conn->prepare( "create table `$candidate_report` (technical_id INT AUTO_INCREMENT PRIMARY KEY, student_name VARCHAR(255) , admin_no VARCHAR(255) ,  technical_report VARCHAR(255) ) " );
+                    $result7 = $sql7->execute();
+
+                    $insertSql7 = $conn->prepare("insert into `$candidate_report` () values () ");
+                    $resultInsertSql7 = $insertSql7->execute();                     
+                    //end of technical report
+
+                    if($resultInsertSql7){
                         $response['message']= "Registered"; 
                     }
                 }else{

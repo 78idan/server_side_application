@@ -10,15 +10,14 @@ $response = [];
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     $candidate_table = $_POST['candidate_table'];
-    $week = $_POST['week'];
-    $day = $_POST['day'];
+    $college_id = 1;
 
-    $sql1 = $conn->prepare("select * from `$candidate_table` where week = ? and day = ? ");
-    $result1 = $sql1->execute([$week,$day]);
+    $sql1 = $conn->prepare("select * from `$candidate_table` where college_id = ? ");
+    $result1 = $sql1->execute([$college_id]);
     if($result1){
-        $row1 = $sql1->rowCount();
-        if($row1 == 0){
-            $response['message'] = "Activiy not filled";
+        $fetch1 = $sql1->fetch(PDO::FETCH_ASSOC);
+        if(empty($fetch1['company']) || $fetch1['company'] == "null" ){
+            $response['message'] = "report not submitted";
         }else{
             $response['message'] = "filled";
         }
