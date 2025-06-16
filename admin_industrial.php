@@ -17,6 +17,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         $LectureAdmissionNumber1 = $_POST['LectureAdmissionNumber1'];
         $LectureAdmissionNumber2 = $_POST['LectureAdmissionNumber2'];
         $LectureAdmissionNumber3 = $_POST['LectureAdmissionNumber3'];
+        $marker = $_POST['marker'];
         $sql = $conn->prepare("select * from admin_region_table");
         $result = $sql->execute();
         
@@ -37,20 +38,37 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     $fetch4 = $sql4->fetch(PDO::FETCH_ASSOC);
                     $row4 = $sql4->rowCount();  
                     if($row4 == 1 && $fetch4['role'] == "lecture" ){
-                        $sql5 = $conn->prepare("select * from admin_region_table where region_name = ? ");
-                        $result5 = $sql5->execute([$regionValue]);
-                        $row5 = $sql5->rowCount();
-                        if($row5 == 0){
-                            $sql6 = $conn->prepare("insert into admin_region_table(region_name,lecture_admission1,lecture_admission2,lecture_admission3) values(?,?,?,?) ");
-                            $result6 = $sql6->execute([$regionValue,$LectureAdmissionNumber1,$LectureAdmissionNumber2,$LectureAdmissionNumber3]);
-                            if($result6){
-                                $response['message'] = "supervisors enrolled";
+                        $sqlMarker = $conn->prepare("select * from login_table where admission_number = ?");
+                        $resultMarker = $sqlMarker->execute([$marker]);
+                        $fetchMarker = $sqlMarker->fetch(PDO::FETCH_ASSOC);
+                        $rowMarker = $sqlMarker->rowCount();
+
+                        if($rowMarker == 1 && $fetchMarker['role'] == lecture){
+                            $sqlMarker1 = $conn->prepare("select marker from admin_region where marker = ?");
+                            $resultMarker1 = $sqlMarker1->execute([$marker]);
+                            $rowMarker1 = $sqlMarker1->rowCount();
+                            if($rowMarker1 != 0){
+                                $response['message'] = "Marker account already exist";
                             }else{
-                                $response['message'] = "data not inserted";
+                                $sql5 = $conn->prepare("select * from admin_region_table where region_name = ? ");
+                                $result5 = $sql5->execute([$regionValue]);
+                                $row5 = $sql5->rowCount();
+                                if($row5 == 0){
+                                    $sql6 = $conn->prepare("insert into admin_region_table(region_name,lecture_admission1,lecture_admission2,lecture_admission3,marker) values(?,?,?,?,?) ");
+                                    $result6 = $sql6->execute([$regionValue,$LectureAdmissionNumber1,$LectureAdmissionNumber2,$LectureAdmissionNumber3,$marker]);
+                                    if($result6){
+                                        $response['message'] = "supervisors enrolled";
+                                    }else{
+                                        $response['message'] = "data not inserted";
+                                    }
+                                }else{
+                                    $response['message'] = "Region already assigned";
+                                }
                             }
                         }else{
-                            $response['message'] = "Region already assigned";
+                            $response['message'] = "Marker account does not exist";
                         }
+
                     }else{
                         $response['message'] = "Account doesn`t exist";
                     }                                      
