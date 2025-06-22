@@ -36,6 +36,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     $candidate_college = $admission_number."_college";
                     $candidate_industry = $admission_number."_industry";
                     $candidate_report = $admission_number."_report";
+                    $candidate_marker = $admission_number."_marker";
                     $sql4 = $conn->prepare("create table `$candidate_table`(book_id INT AUTO_INCREMENT PRIMARY KEY,week VARCHAR(255) NOT NULL,day VARCHAR(255) NOT NULL,date_time VARCHAR(255) NOT NULL, activity VARCHAR(255) NOT NULL,photo VARCHAR(255) NULL, id_sign VARCHAR(255) NULL, co_sign VARCHAR(255)  NULL  )" );
                     $result4 = $sql4->execute();
 
@@ -63,7 +64,15 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     $resultInsertSql7 = $insertSql7->execute();                     
                     //end of technical report
 
-                    if($resultInsertSql7){
+                    //start of marker_table
+                    $sql8 = $conn->prepare( "create table `$candidate_marker` (marker_id INT AUTO_INCREMENT PRIMARY KEY, technical_report VARCHAR(255) , total VARCHAR(255) ) " );
+                    $result8 = $sql8->execute();
+
+                    $insertSql8 = $conn->prepare("insert into `$candidate_marker` () values () ");
+                    $resultInsertSql8 = $insertSql8->execute();                     
+                    //end of marker_table
+
+                    if($resultInsertSql8){
                         $response['message']= "Registered"; 
                     }
                 }else{
